@@ -39,6 +39,8 @@ LIBFLAGS = -shared -Wl,-soname,${LIB}
 OTHERLIBS =  -lpthread -lprotobuf
 endif
 
+LINKER_DIRS = -L/usr/local/lib
+
 PROTOC = $(shell which protoc)
 
 OBJECTS := proto/Previrt.pb.o proto/Watch.pb.o $(patsubst %.cpp,%.o,$(wildcard *.cpp)) 
@@ -54,6 +56,7 @@ ${LIB}:
 
 lib: ${OBJECTS}
 	$(CXX) ${OBJECTS} ${LIBFLAGS} -o ${LIB} ${CXX_FLAGS} ${LD_FLAGS} ${OTHERLIBS}
+	$(CXX) ${OBJECTS} ${LIBFLAGS} -o ${LIB} ${CXX_FLAGS} ${LD_FLAGS} ${OTHERLIBS} ${LINKER_DIRS}
 
 %.o: %.cpp
 	$(CXX) -I. ${CXX_FLAGS} $< -c 
